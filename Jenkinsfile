@@ -5,7 +5,6 @@ pipeline {
         stage('Deploy to kubernetes') {
             steps {
                 withKubeCredentials(kubectlCredentials: [[caCertificate: '', clusterName: ' eksctl-monitoring-test-cluster-1-cluster', contextName: '', credentialsId: 'k8-token', namespace: 'webapps', serverUrl: 'arn:aws:cloudformation:us-east-1:739275449568:stack/eksctl-monitoring-test-cluster-1-cluster/f9c72170-9ceb-11f0-93a9-0e6ee1ba55f5']]) {
-    cd C:\Users\khush\OneDrive\Desktop
     kubectl apply -f kubectl apply -f .\deployment.yml 
             }
         }

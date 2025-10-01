@@ -2,19 +2,33 @@ pipeline {
     agent any
 
     stages {
-        stage('Deploy to kubernetes') {
+        stage('Deploy to Kubernetes') {
             steps {
-               withKubeCredentials(kubectlCredentials: [[caCertificate: '', clusterName: ' monitoring-test-cluster-1', contextName: '', credentialsId: 'k8s-secret', namespace: 'webapps', serverUrl: 'https://6D42C7CB29DE729CEBBD98A6E1DD4503.gr7.us-east-1.eks.amazonaws.com']]) {
-                sh "kubectl apply -f deployment-service.yml"
+                withKubeCredentials(kubectlCredentials: [[
+                    caCertificate: '', 
+                    clusterName: 'monitoring-test-cluster-1', 
+                    contextName: '', 
+                    credentialsId: 'k8s-secret', 
+                    namespace: 'webapps', 
+                    serverUrl: 'https://6D42C7CB29DE729CEBBD98A6E1DD4503.gr7.us-east-1.eks.amazonaws.com'
+                ]]) {
+                    sh "kubectl apply -f deployment-service.yml"
                 }
             }
         }
         
-        stage('verify deployment')) {
+        stage('Verify Deployment') {
             steps {
-                withKubeCredentials(kubectlCredentials: [[caCertificate: '', clusterName: ' monitoring-test-cluster-1', contextName: '', credentialsId: 'k8s-secret', namespace: 'webapps', serverUrl: 'https://6D42C7CB29DE729CEBBD98A6E1DD4503.gr7.us-east-1.eks.amazonaws.com']]) {
-                 sh "kubectl get svc -n webapps"
-                 }
+                withKubeCredentials(kubectlCredentials: [[
+                    caCertificate: '', 
+                    clusterName: 'monitoring-test-cluster-1', 
+                    contextName: '', 
+                    credentialsId: 'k8s-secret', 
+                    namespace: 'webapps', 
+                    serverUrl: 'https://6D42C7CB29DE729CEBBD98A6E1DD4503.gr7.us-east-1.eks.amazonaws.com'
+                ]]) {
+                    sh "kubectl get all -n webapps"
+                }
             }
         }
     }
